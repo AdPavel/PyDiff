@@ -48,7 +48,7 @@
 # print(max_element(ls))
 
 # быстрая сортировка
-
+import time
 def quick_sort(ls):
     if len(ls) < 2:
         return ls
@@ -58,4 +58,23 @@ def quick_sort(ls):
         greater = [i for i in ls[1:] if i > middle]
         return quick_sort(less) + [middle] + quick_sort(greater)
 
-print(quick_sort([12, 2, 3, 5, 87, 5, 4, 1]))
+start_time = time.perf_counter_ns()
+result = quick_sort([12, 2, 3, 5, 87, 5, 4, 1])
+stop_time = time.perf_counter_ns()
+print(f'time execute: {stop_time - start_time:.4f}')
+
+import random
+
+def quick_sort2(ls):
+    if len(ls) < 2:
+        return ls
+    else:
+        middle = random.choice(ls)
+        less = [i for i in ls[1:] if i <= middle]
+        greater = [i for i in ls[1:] if i > middle]
+        return quick_sort(less) + [middle] + quick_sort(greater)
+
+start_time = time.perf_counter_ns()
+result = quick_sort2([12, 2, 3, 5, 87, 5, 4, 1])
+stop_time = time.perf_counter_ns()
+print(f'time execute: {stop_time - start_time:.4f}')
