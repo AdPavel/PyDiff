@@ -1219,12 +1219,41 @@
 # Примечание:
 # Считать все строки по одной из стандартного потока ввода вы можете, например, так
 
-import sys, re
+# import sys, re
+# sys.stdin = open('io.txt', 'r')
+#
+# # pattern = r"(.*cat.*cat.*)"
+# for line in sys.stdin:
+#     line = line.rstrip()
+#     if re.search(r'cat.*cat', line):
+#         print(line)
+#     # match = re.search(pattern, line, re.IGNORECASE)
+#     # if match:
+#     #     print(match.string)
+#
+#     # process line
+# #=====================
+# import sys, re
+# for line in sys.stdin:
+#     line = line.rstrip()
+#     if re.search(r'\bcat\b', line):
+#         print(line)
+#===========Выведите строки, содержащие две буквы "z﻿", между которыми ровно три символа.========
+# import sys, re
+# for line in sys.stdin:
+#     line = line.rstrip()
+#     if re.search(r'z.{3}z', line):
+#         print(line)
 
-pattern = r'(ca.+(cat))'
-for line in sys.stdin:
-    line = line.rstrip()
-    match = re.search(pattern, line)
-    print(match.string if match else '')
-    # process line
-
+#====Выведите строки, содержащие обратный слеш "\﻿".
+# import sys, re
+# for line in sys.stdin:
+#     line = line.rstrip()
+#     if re.search(r'\\.*', line):
+#         print(line)
+#========Выведите строки, содержащие слово, состоящее из двух одинаковых частей (тандемный повтор).
+# import sys, re
+# for line in sys.stdin:
+#     line = line.rstrip()
+#     if re.search(r'\b(.+)\1\b', line):
+#         print(line)
