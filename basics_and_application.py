@@ -1257,3 +1257,25 @@
 #     line = line.rstrip()
 #     if re.search(r'\b(.+)\1\b', line):
 #         print(line)
+#=========В каждой строке замените все вхождения подстроки "human" на подстроку "computer"﻿ и выведите полученные строки.
+# import sys, re
+# for line in sys.stdin:
+#     line = line.rstrip()
+#     print(re.sub(r'human', 'computer', line))
+#===В каждой строке замените первое вхождение слова, состоящего только из латинских букв "a" (регистр не важен), на слово "argh".
+# import sys, re
+# sys.stdin = open('io.txt', 'r')
+# for line in sys.stdin:
+#     line = line.rstrip()
+#     print(re.sub(r'\ba+\b', 'argh', line, flags = re.IGNORECASE, count=1))
+#===В каждой строке поменяйте местами две первых буквы в каждом слове, состоящем хотя бы из двух букв.
+# Буквой считается символ из группы \w.
+import sys, re
+sys.stdin = open('io.txt', 'r')
+for line in sys.stdin:
+    line = line.rstrip()
+    print(re.sub(r'\b(\w)(\w)+?', r'\2\1', line))
+
+
+
+
