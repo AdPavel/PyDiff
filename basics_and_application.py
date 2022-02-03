@@ -1222,7 +1222,7 @@
 # import sys, re
 # sys.stdin = open('io.txt', 'r')
 #
-# # pattern = r"(.*cat.*cat.*)"
+# pattern = r"(.*cat.*cat.*)"
 # for line in sys.stdin:
 #     line = line.rstrip()
 #     if re.search(r'cat.*cat', line):
@@ -1238,6 +1238,7 @@
 #     line = line.rstrip()
 #     if re.search(r'\bcat\b', line):
 #         print(line)
+
 #===========Выведите строки, содержащие две буквы "z﻿", между которыми ровно три символа.========
 # import sys, re
 # for line in sys.stdin:
@@ -1251,31 +1252,144 @@
 #     line = line.rstrip()
 #     if re.search(r'\\.*', line):
 #         print(line)
+
 #========Выведите строки, содержащие слово, состоящее из двух одинаковых частей (тандемный повтор).
 # import sys, re
 # for line in sys.stdin:
 #     line = line.rstrip()
 #     if re.search(r'\b(.+)\1\b', line):
 #         print(line)
+
 #=========В каждой строке замените все вхождения подстроки "human" на подстроку "computer"﻿ и выведите полученные строки.
 # import sys, re
 # for line in sys.stdin:
 #     line = line.rstrip()
 #     print(re.sub(r'human', 'computer', line))
+
 #===В каждой строке замените первое вхождение слова, состоящего только из латинских букв "a" (регистр не важен), на слово "argh".
 # import sys, re
 # sys.stdin = open('io.txt', 'r')
 # for line in sys.stdin:
 #     line = line.rstrip()
 #     print(re.sub(r'\ba+\b', 'argh', line, flags = re.IGNORECASE, count=1))
+
 #===В каждой строке поменяйте местами две первых буквы в каждом слове, состоящем хотя бы из двух букв.
 # Буквой считается символ из группы \w.
-import sys, re
-sys.stdin = open('io.txt', 'r')
-for line in sys.stdin:
-    line = line.rstrip()
-    print(re.sub(r'\b(\w)(\w)+?', r'\2\1', line))
+# import sys, re
+# sys.stdin = open('io.txt', 'r')
+# for line in sys.stdin:
+#     line = line.rstrip()
+#     print(re.sub(r'\b(\w)(\w)+?', r'\2\1', line))
 
+#В каждой строке замените все вхождения нескольких одинаковых букв на одну букву. Буквой считается символ из группы \w.
 
+# import sys, re
+# sys.stdin = open('io.txt', 'r')
+# for line in sys.stdin:
+#     line = line.rstrip()
+#     print(re.sub(r'(\w)\1+', r'\1', line))
+
+#========== HHTP==============
+
+# import requests
+#
+# # res = requests.get('https://docs.python.org/3.9/_static/py.svg')
+# # print(res.status_code)
+# # print(res.headers['Content-Type'])
+# # # print(res.content)
+# # # print(res.text)
+# # with open('python_logo.png', 'wb') as f:
+# #     f.write(res.content)
+#
+# res = requests.get('https://yandex.ru/search',
+#                    params={'text': 'Stepic'})
+# print(res.status_code)
+# print(res.headers['Content-Type'])
+# print(res.url)
+
+#==============#==============#==============#==============#==============#==============#==============#==============
+# Рассмотрим два HTML-документа A и B.
+# Из A можно перейти в B за один переход, если в A есть ссылка на B, т. е. внутри A есть тег <a href="B">,
+# возможно с дополнительными параметрами внутри тега.
+# Из A можно перейти в B за два перехода если существует такой документ C, что из A в C можно перейти за один переход
+# и из C в B можно перейти за один переход.
+#
+# Вашей программе на вход подаются две строки, содержащие url двух документов A и B.
+# Выведите Yes, если из A в B можно перейти за два перехода, иначе выведите No.
+#
+# Обратите внимание на то, что не все ссылки внутри HTML документа могут вести на существующие HTML документы.
+
+import requests, sys, re
+
+sys.stdin = open('io.txt')
+a, b = sys.stdin
+any_link = (r'<a href="(.*?)">')
+pattern = (fr'<a href="{b.rstrip()}">')
+ls = list()
+ls2 = list()
+res = requests.get(a.rstrip())
+match = re.findall(any_link, res.text)
+ls.extend((match.group(1),))
+res1 = requests.get(ls[0])
+match1 = re.search(any_link, res1.text)
+ls2.extend((match1.group(1),))
+
+# while match.group(1) != a.rstrip():
+#     match = re.search(any_link, res.text)
+#     s = match.group(1)
+#     ls.extend(s)
+#     res = requests.get(match.group(1))
+
+if b.rstrip() in ls2:
+    print('Yes')
+else:
+    print('No')
+
+#
+# def find_link(a, count = 0):
+#     res = requests.get(a.rstrip())
+#     if res.status_code == 200:
+#         match = re.search(any_link, res.text)
+#         if match.group(1) != a.rstrip():
+#             count += find_link(match.group(1))
+#         if match.group(1) == b.rstrip():
+#             return count + 1
+#         return 0
+#     else:
+#         return 0
+# #
+#
+#     #         if match.group(1) != a.rstrip():
+#     #             count = count + find_link(match.group(1), count)
+#     #             return count
+#     #         elif match.group(1) == b.rstrip():
+#     #             count += 1
+#     #             return 1
+#     #
+#     #         else:
+#     #             return 0
+#     # else:
+#     #     return 0
+#
+#
+#     #     match1 = re.search(pattern, res.text)
+#     #     if match1:
+#     #         #print('YES')
+#     #         return 1 + find_link(match1)
+#     #     else:
+#     #         match = re.search(any_link, res.text)
+#     #         if match:
+#     #             return count + find_link(match.group(1))
+#     #         else:
+#     #             #print('NO')
+#     #             return 0
+#     # else:
+#     #     #print('NO')
+#     #     return 0
+#
+# # if find_link(a) == 2:
+# #     print('Yes')
+# # else:
+# #     print('No')
 
 
