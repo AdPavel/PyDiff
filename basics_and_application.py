@@ -1319,77 +1319,28 @@
 #
 # Обратите внимание на то, что не все ссылки внутри HTML документа могут вести на существующие HTML документы.
 
-import requests, sys, re
+# import requests, sys, re
+#
+# sys.stdin = open('io.txt')
+# a, b = sys.stdin
+# any_link = (r'<a href="(.*?)">')
+# pattern = (fr'<a href="{b.rstrip()}">')
+# ls = list()
+# ls2 = list()
+# res = requests.get(a.rstrip())
+# if res.status_code == 200:
+#     ls = re.findall(any_link, res.text)
+#     for link in ls:
+#         res1 = requests.get(link)
+#         if res1.status_code == 200:
+#             ls2.extend(re.findall(any_link, res1.text))
+#             # match = re.search(any_link, res1.text)
+#             # ls2.extend((match.group(1),))
+#
+# if b.rstrip() in ls2:
+#     print('Yes')
+# else:
+#     print('No')
 
-sys.stdin = open('io.txt')
-a, b = sys.stdin
-any_link = (r'<a href="(.*?)">')
-pattern = (fr'<a href="{b.rstrip()}">')
-ls = list()
-ls2 = list()
-res = requests.get(a.rstrip())
-match = re.findall(any_link, res.text)
-ls.extend((match.group(1),))
-res1 = requests.get(ls[0])
-match1 = re.search(any_link, res1.text)
-ls2.extend((match1.group(1),))
-
-# while match.group(1) != a.rstrip():
-#     match = re.search(any_link, res.text)
-#     s = match.group(1)
-#     ls.extend(s)
-#     res = requests.get(match.group(1))
-
-if b.rstrip() in ls2:
-    print('Yes')
-else:
-    print('No')
-
-#
-# def find_link(a, count = 0):
-#     res = requests.get(a.rstrip())
-#     if res.status_code == 200:
-#         match = re.search(any_link, res.text)
-#         if match.group(1) != a.rstrip():
-#             count += find_link(match.group(1))
-#         if match.group(1) == b.rstrip():
-#             return count + 1
-#         return 0
-#     else:
-#         return 0
-# #
-#
-#     #         if match.group(1) != a.rstrip():
-#     #             count = count + find_link(match.group(1), count)
-#     #             return count
-#     #         elif match.group(1) == b.rstrip():
-#     #             count += 1
-#     #             return 1
-#     #
-#     #         else:
-#     #             return 0
-#     # else:
-#     #     return 0
-#
-#
-#     #     match1 = re.search(pattern, res.text)
-#     #     if match1:
-#     #         #print('YES')
-#     #         return 1 + find_link(match1)
-#     #     else:
-#     #         match = re.search(any_link, res.text)
-#     #         if match:
-#     #             return count + find_link(match.group(1))
-#     #         else:
-#     #             #print('NO')
-#     #             return 0
-#     # else:
-#     #     #print('NO')
-#     #     return 0
-#
-# # if find_link(a) == 2:
-# #     print('Yes')
-# # else:
-# #     print('No')
 
 
