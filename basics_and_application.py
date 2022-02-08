@@ -1371,18 +1371,47 @@
 # stepic.org
 # www.ya.ru
 # ya.ru
+#
+# import requests, re
+#
+# ls_all = []
+# match_set = set()
+# any_link = re.compile(r'<a.*href=[\"\'](http://|ftp://|https://|\.\.)?(.*?)(\:.*|\/.*)?[\'\"].*>')
+# res = requests.get(input())
+# if res.status_code == 200:
+#     ls_all = any_link.findall(res.text)
+#     match_set = sorted({i[1] for i in ls_all})
+#
+# [print(link) for link in match_set]
 
-import requests, re
+#=========================================================================================================
+# Вам дана частичная выборка из датасета зафиксированных преступлений, совершенных в городе Чикаго с 2001 года по
+# настоящее время.
+# Одним из атрибутов преступления является его тип – Primary Type.
+# Вам необходимо узнать тип преступления, которое было зафиксировано максимальное число раз в 2015 году.
+# Файл с данными:
+# Crimes.csv
 
-ls_all = []
-match_set = set()
-any_link = re.compile(r'<a.*href=[\"\'](http://|ftp://|https://|\.\.)?(.*?)(\:.*|\/.*)?[\'\"].*>')
-res = requests.get(input())
-if res.status_code == 200:
-    ls_all = any_link.findall(res.text)
-    match_set = sorted({i[1] for i in ls_all})
+import csv
+from collections import Counter
 
-[print(link) for link in match_set]
+ls_crimes = []
+with open('Crimes.csv') as f:
+    reader = csv.DictReader(f)
+    ls_crimes = [row['Primary Type'] for row in reader if '2015' in row['Date']]
+    count = Counter(ls_crimes).most_common()
+    name, count = count[0]
+    print(name)
 
 
-
+# count_crimes = dict()
+# with open('Crimes.csv') as f:
+#     reader = csv.DictReader(f)
+#     for row in reader:
+#         if '2015' in row['Date']:
+#             if count_crimes.get(row['Primary Type'], None):
+#                 count_crimes[row['Primary Type']] += 1
+#             else:
+#                 count_crimes[row['Primary Type']] = 1
+#
+# print(max(count_crimes, key=count_crimes.get))
