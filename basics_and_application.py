@@ -1392,26 +1392,97 @@
 # Файл с данными:
 # Crimes.csv
 
-import csv
-from collections import Counter
-
-ls_crimes = []
-with open('Crimes.csv') as f:
-    reader = csv.DictReader(f)
-    ls_crimes = [row['Primary Type'] for row in reader if '2015' in row['Date']]
-    count = Counter(ls_crimes).most_common()
-    name, count = count[0]
-    print(name)
-
-
-# count_crimes = dict()
+# import csv
+# from collections import Counter
+#
+# ls_crimes = []
 # with open('Crimes.csv') as f:
 #     reader = csv.DictReader(f)
-#     for row in reader:
-#         if '2015' in row['Date']:
-#             if count_crimes.get(row['Primary Type'], None):
-#                 count_crimes[row['Primary Type']] += 1
-#             else:
-#                 count_crimes[row['Primary Type']] = 1
+#     ls_crimes = [row['Primary Type'] for row in reader if '2015' in row['Date']]
+#     count = Counter(ls_crimes).most_common()
+#     name, count = count[0]
+#     print(name)
 #
-# print(max(count_crimes, key=count_crimes.get))
+#
+# # count_crimes = dict()
+# # with open('Crimes.csv') as f:
+# #     reader = csv.DictReader(f)
+# #     for row in reader:
+# #         if '2015' in row['Date']:
+# #             if count_crimes.get(row['Primary Type'], None):
+# #                 count_crimes[row['Primary Type']] += 1
+# #             else:
+# #                 count_crimes[row['Primary Type']] = 1
+# #
+# # print(max(count_crimes, key=count_crimes.get))
+
+#===================================================================================================
+# Вам дано описание наследования классов в формате JSON.
+# Описание представляет из себя массив JSON-объектов, которые соответствуют классам. У каждого JSON-объекта есть
+# поле name, которое содержит имя класса, и поле parents, которое содержит список имен прямых предков.
+# # Пример:
+# [{"name": "A", "parents": []}, {"name": "B", "parents": ["A", "C"]}, {"name": "C", "parents": ["A"]}]
+#  ﻿Эквивалент на Python:
+# class A:
+#     pass
+# class B(A, C):
+#     pass
+# class C(A):
+#     pass
+#
+# Гарантируется, что никакой класс не наследуется от себя явно или косвенно, и что никакой класс не наследуется явно
+# от одного класса более одного раза.
+# Для каждого класса вычислите предком скольких классов он является и выведите эту информацию в следующем формате.
+# <имя класса> : <количество потомков>
+# Выводить классы следует в лексикографическом порядке.
+# Sample Input:
+# [{"name": "A", "parents": []}, {"name": "B", "parents": ["A", "C"]}, {"name": "C", "parents": ["A"]}]
+# Sample Output:
+# A : 3
+# B : 1
+# C : 2
+# [{"name": "B", "parents": ["A", "C"]}, {"name": "C", "parents": ["A"]}, {"name": "A", "parents": []}, {"name": "D",
+# "parents":["C", "F"]}, {"name": "E", "parents":["D"]}, {"name": "F", "parents":[]}]
+import sys
+import json
+
+sys.stdin = open('io.txt')
+json_read = json.loads(input())
+
+def dfs(graph:dict, start:str, visited=None) -> set:
+    '''
+    Функция обхода графа и вывод родителей
+    :param graph: словарь вида {'key': set()}
+    :param start: str
+    :param visited:
+    :return: мжество всех родителей
+    '''
+    if visited is None:
+        visited = set()
+    visited.add(start)
+    for next in graph[start] - visited:
+        dfs(graph, next, visited)
+    return visited
+
+# graph = {row_dict['name']: set(row_dict['parents']) for row_dict in json_read}
+# count_dict = {row_dict['name']: 0 for row_dict in json_read}
+graph, count_dict = {}, {}
+for row_dict in json_read:
+    graph[row_dict['name']] = set(row_dict['parents'])
+    count_dict[row_dict['name']] = 0
+
+ls = []
+for key, val in graph.items():
+    ls.append(dfs(graph, key))
+
+for row_set in ls:
+    for key in row_set:
+        count_dict[key] += 1
+
+[print(f'{key} : {val}') for key, val in sorted(count_dict.items())]
+
+
+
+
+
+
