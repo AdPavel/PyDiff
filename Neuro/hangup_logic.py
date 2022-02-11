@@ -2,7 +2,7 @@ import NeuroNetLibrary as nn
 import NeuroVoiceLibrary as nv
 
 
-def hangup(result):
+def hangup(result) -> None:
     """
     Функция завершения разговора
     :param result:
@@ -26,6 +26,7 @@ def hangup(result):
     # nn.env('result', hangup_logic_dict[result]['status'])
     nn.log('condition', hangup_logic_dict[result]['status'])
     nn.dialog.result = nn.RESULT_DONE
+
 
 # def hangup_positive():
 # 	nv.say('Отлично!  Большое спасибо за уделенное время! Всего вам доброго!')

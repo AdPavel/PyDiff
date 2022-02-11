@@ -5,7 +5,7 @@ from Neuro import main_logic
 
 
 
-def hello_main():
+def hello_main() -> object:
     """
     Функция входа для модуля
     :return:
@@ -17,7 +17,7 @@ def hello_main():
     return hello_rules(listen_result)
 
 
-def hello_rules(listen_result):
+def hello_rules(listen_result: object) -> object:
     """
     Функция с логикой работы модуля
     :param listen_result:
@@ -30,9 +30,9 @@ def hello_rules(listen_result):
         return message_pattern('voicemail=true', 'автоответчик', 'hangup_null')
     elif listen_result.has_entity('confirm') and listen_result.entity('confirm') == 'true':
         main_logic.main()
-        return message_pattern('confirm=true', 'да', None)
+        return message_pattern('confirm=true', 'Да', None)
     elif listen_result.has_entity('confirm') and listen_result.entity('confirm') == 'false':
-        return message_pattern('confirm=false', 'нет', 'hangup_wrong_time')
+        return message_pattern('confirm=false', 'Нет', 'hangup_wrong_time')
     elif listen_result.has_entity('wrong_time') and listen_result.entity('wrong_time') == 'true':
         return message_pattern('wrong_time=true', 'Занят', 'hangup_wrong_time')
     elif listen_result.has_entity('repeat') and listen_result.entity('repeat') == 'true':
@@ -43,7 +43,7 @@ def hello_rules(listen_result):
         return main_logic.recommend_main()
 
 
-def message_pattern(*args):
+def message_pattern(*args) -> str:
     """
     Функция шаблона записи в лог и изменения окружения (env), отправляет сообщение для hangup
     :param args:
@@ -56,7 +56,7 @@ def message_pattern(*args):
     return condition
 
 
-def hello_null():
+def hello_null() -> object:
     """
     Функция для обработки: "NULL - не сказано ни одного слова"
     :return:
@@ -71,7 +71,7 @@ def hello_null():
             return hello_rules(listen_result)
 
 
-def hello_repeat():
+def hello_repeat() -> object:
     """
      Функция для обработки: "Еще раз", повтор
     :return:

@@ -3,7 +3,7 @@ import NeuroVoiceLibrary as nv
 from Neuro import hangup_logic
 from Neuro import hello_logic
 
-def main():
+def main() -> object:
     """
     Функция для опроса при положительном ответе респондента
     :return:
@@ -11,7 +11,7 @@ def main():
     recommend_main()
     pass
 
-def recommend_main():
+def recommend_main() -> object:
     """
     Функция начального сообщения модуля
     :return:
@@ -21,7 +21,7 @@ def recommend_main():
                '«0» до «10», где «0» - не буду рекомендовать, «10» - обязательно порекомендую.')
      return main_rules(listen_result)
 
-def main_rules(listen_result):
+def main_rules(listen_result: object):
     """
     Функция с логикой работы модуля
     :param listen_result:
@@ -63,7 +63,7 @@ def main_rules(listen_result):
         return recommend_default()
 
 
-def recommend_null():
+def recommend_null() -> object:
     """
         Функция для обработки: "NULL - не сказано ни одного слова"
     :return:
@@ -77,9 +77,10 @@ def recommend_null():
         else:
             return main_rules(listen_result)
 
-def recommend_score(status, *args):
+def recommend_score(status: str, *args) -> object:
     """
     Общая функция обработки ответов
+    :type args: tuple(str, str)
     :param status:
     :param args:
     :return:
@@ -100,7 +101,7 @@ def recommend_score(status, *args):
         nv.say(message_dict[status])
         return main_rules(listen_result)
 
-def forward():
+def forward() -> object:
     """
     Функция перевода на оператора
     :return:
@@ -110,7 +111,7 @@ def forward():
      nn.env('result', 'перевод на оператора')
      pass
 
-def recommend_default():
+def recommend_default() -> object:
     """
     Функция при не подходящих ответах
     :return:
