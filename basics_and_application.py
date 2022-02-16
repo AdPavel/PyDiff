@@ -1443,46 +1443,61 @@
 # C : 2
 # [{"name": "B", "parents": ["A", "C"]}, {"name": "C", "parents": ["A"]}, {"name": "A", "parents": []}, {"name": "D",
 # "parents":["C", "F"]}, {"name": "E", "parents":["D"]}, {"name": "F", "parents":[]}]
-import sys
-import json
+# import sys
+# import json
+#
+# sys.stdin = open('io.txt')
+# json_read = json.loads(input())
+#
+# def dfs(graph:dict, start:str, visited=None) -> set:
+#     '''
+#     Функция обхода графа и вывод родителей
+#     :param graph: словарь вида {'key': set()}
+#     :param start: str
+#     :param visited:
+#     :return: мжество всех родителей
+#     '''
+#     if visited is None:
+#         visited = set()
+#     visited.add(start)
+#     for next in graph[start] - visited:
+#         dfs(graph, next, visited)
+#     return visited
+#
+# # graph = {row_dict['name']: set(row_dict['parents']) for row_dict in json_read}
+# # count_dict = {row_dict['name']: 0 for row_dict in json_read}
+# graph, count_dict = {}, {}
+# for row_dict in json_read:
+#     graph[row_dict['name']] = set(row_dict['parents'])
+#     count_dict[row_dict['name']] = 0
+#
+# ls = []
+# for key, val in graph.items():
+#     ls.append(dfs(graph, key))
+#
+# for row_set in ls:
+#     for key in row_set:
+#         count_dict[key] += 1
+#
+# [print(f'{key} : {val}') for key, val in sorted(count_dict.items())]
 
-sys.stdin = open('io.txt')
-json_read = json.loads(input())
+#=========================================
+import requests
 
-def dfs(graph:dict, start:str, visited=None) -> set:
-    '''
-    Функция обхода графа и вывод родителей
-    :param graph: словарь вида {'key': set()}
-    :param start: str
-    :param visited:
-    :return: мжество всех родителей
-    '''
-    if visited is None:
-        visited = set()
-    visited.add(start)
-    for next in graph[start] - visited:
-        dfs(graph, next, visited)
-    return visited
+api_url = 'http://api.openweathermap.org/data/2.5/weather'
+city = 'Тольятти'#input('City: ')
+params = {
+    'q': city,
+    'appid': '11c0d3dc6093f7442898ee49d2430d20',
+    'lang': 'ru',
+    'units': 'metric'
+}
 
-# graph = {row_dict['name']: set(row_dict['parents']) for row_dict in json_read}
-# count_dict = {row_dict['name']: 0 for row_dict in json_read}
-graph, count_dict = {}, {}
-for row_dict in json_read:
-    graph[row_dict['name']] = set(row_dict['parents'])
-    count_dict[row_dict['name']] = 0
-
-ls = []
-for key, val in graph.items():
-    ls.append(dfs(graph, key))
-
-for row_set in ls:
-    for key in row_set:
-        count_dict[key] += 1
-
-[print(f'{key} : {val}') for key, val in sorted(count_dict.items())]
-
-
-
-
-
+res = requests.get(api_url, params=params)
+# print(res.status_code)
+# print(res.headers['Content-Type'])
+print(res.json())
+data = res.json()
+template = 'Тольятти: {}\u2103'
+print(template.format(data['main']['temp']))
 
